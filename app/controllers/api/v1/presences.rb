@@ -36,7 +36,7 @@ module API
         end
 
         get nil, root: :presence do
-          Presence.where()
+          Presence.where(presence_list_id: params[:list_id])
         end
       end
     end
