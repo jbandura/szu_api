@@ -61,6 +61,7 @@ module API
             requires :city, type: String, desc: "Student city"
             requires :country, type: String, desc: "Student country"
             requires :phone_nr, type: String, desc: "Student phone_nr"
+            requires :student_group_id, type: String, desc: "Group ID"
             optional :accepted_terms, type: Boolean
           end
         end
@@ -73,6 +74,7 @@ module API
             city: params[:student][:city],
             country: params[:student][:country],
             phone_nr: params[:student][:phone_nr],
+            student_group_id: params[:student][:student_group_id],
             accepted_terms: params[:student][:accepted_terms]
           })
           update ? student : false

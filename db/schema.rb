@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150614183720) do
+ActiveRecord::Schema.define(version: 20150817200752) do
 
   create_table "courses", force: :cascade do |t|
     t.string   "name",             limit: 255
@@ -32,6 +32,26 @@ ActiveRecord::Schema.define(version: 20150614183720) do
   end
 
   add_index "payments", ["student_id"], name: "index_payments_on_student_id", using: :btree
+
+  create_table "presence_lists", force: :cascade do |t|
+    t.integer  "course_id",  limit: 4
+    t.date     "date"
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
+  end
+
+  add_index "presence_lists", ["course_id"], name: "index_presence_lists_on_course_id", using: :btree
+
+  create_table "presences", force: :cascade do |t|
+    t.integer  "presence_list_id", limit: 4
+    t.integer  "student_id",       limit: 4
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.boolean  "is_present",       limit: 1
+  end
+
+  add_index "presences", ["presence_list_id"], name: "index_presences_on_presence_list_id", using: :btree
+  add_index "presences", ["student_id"], name: "index_presences_on_student_id", using: :btree
 
   create_table "student_groups", force: :cascade do |t|
     t.string   "name",       limit: 255
@@ -56,5 +76,8 @@ ActiveRecord::Schema.define(version: 20150614183720) do
   add_index "students", ["student_group_id"], name: "index_students_on_student_group_id", using: :btree
 
   add_foreign_key "payments", "students"
+  add_foreign_key "presence_lists", "courses"
+  add_foreign_key "presences", "presence_lists"
+  add_foreign_key "presences", "students"
   add_foreign_key "students", "student_groups"
 end
