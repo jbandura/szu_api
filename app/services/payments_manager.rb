@@ -8,7 +8,8 @@ class PaymentsManager
         Payment.create!({
           student_id: student_id,
           month_nr: today.strftime("%m"),
-          year_nr: today.strftime("%Y")
+          year_nr: today.strftime("%Y"),
+          paid: 0
         })
       end
     end
@@ -19,7 +20,8 @@ class PaymentsManager
     Payment.create!({
       student_id: student_id,
       month_nr: today.strftime("%m"),
-      year_nr: today.strftime("%Y")
+      year_nr: today.strftime("%Y"),
+      paid: false
     })
    end
 
