@@ -11,6 +11,16 @@ module API
 
       resource :presences do
 
+        desc "Get all presences for given list"
+
+        params do
+          requires :list_id, type: Integer
+        end
+
+        get nil, root: :presence do
+          Presence.where(presence_list_id: params[:list_id])
+        end
+
         desc "Add a presence"
 
         params do
@@ -29,15 +39,25 @@ module API
           })
         end
 
-        desc "Get all presences for given list"
+        desc "Update a presence"
 
         params do
-          requires :list_id, type: Integer
+          requires :id, type: Integer, desc: "List ID"
+          requires :presence, type: Hash do
+            requires :presence_list_id, type: Integer, desc: "Presence list ID"
+            requires :student_id, type: Integer, desc: "Student ID"
+            requires :is_present, type: Boolean, desc: "Was this user present?"
+          end
         end
 
-        get nil, root: :presence do
-          Presence.where(presence_list_id: params[:list_id])
+        put ':id' do
+           Presence.find(params[:id]).update({
+             presence_list_id: params[:presence][:presence_list_id],
+             student_id: params[:presence][:student_id],
+             is_present: params[:presence][:is_present],
+           });
         end
+
       end
     end
   end

@@ -41,6 +41,23 @@ module API
           })
         end
 
+        desc "Update a presence list"
+
+        params do
+          requires :id, type: Integer, desc: "List ID"
+          requires :presence_list, type: Hash do
+            requires :date, type: Date, desc: "Date"
+            requires :course_id, type: Integer, desc: "Course ID"
+          end
+        end
+
+        put ':id' do
+          PresenceList.find(params[:id]).update({
+            date: params[:presence_list][:date],
+            course_id: params[:presence_list][:course_id]
+          });
+        end
+
       end
     end
   end
