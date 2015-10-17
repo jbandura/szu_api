@@ -19,9 +19,11 @@ module API
 
         desc "Get a list"
         params do
-          requires :id, type: Integer, desc: "List ID"
+          optional :id, type: Integer, desc: "List ID"
+          optional :student, type: Integer, desc: "Student ID"
         end
         get ':id', root: :presence_list do
+          return PresenceManager.all_for_student(params[:student]) unless params[:student].nil?
           PresenceList.find(params[:id])
         end
 
