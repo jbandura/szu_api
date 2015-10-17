@@ -58,6 +58,16 @@ module API
           });
         end
 
+        desc "Delete a presence list"
+
+        params do
+          requires :id, type: Integer, desc: "List ID"
+        end
+
+        delete ':id' do
+          PresenceList.find(params[:id]).destroy!
+        end
+
       end
     end
   end
